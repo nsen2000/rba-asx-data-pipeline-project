@@ -1,0 +1,31 @@
+# secrets / credentials — NEVER commit these
+*.json
+*-key.json
+.gcp/
+credentials/
+
+# terraform state (can contain sensitive values)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+
+# data files (don't commit raw data dumps)
+*.csv
+*.parquet
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
