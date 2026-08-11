@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RBA Cash Rate × ASX Market Performance Pipeline
 
 A batch data pipeline analysing how RBA cash rate changes relate to ASX
@@ -34,3 +35,6 @@ Docker · Power BI
 
 ## How to run
 _(to be documented)_
+=======
+# rba-asx-data-pipeline-project
+>>>>>>> 909f1140fc3c58bd6230f2a585907099b751e849
