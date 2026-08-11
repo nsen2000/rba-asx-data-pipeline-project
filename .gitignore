@@ -29,3 +29,10 @@ dbt/logs/
 .DS_Store
 .vscode/
 .idea/
+
+
+dbt-env/
+   dbt_env/
+   logs/
+   rba_asx/
+   target/
