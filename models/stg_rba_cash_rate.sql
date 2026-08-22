@@ -2,7 +2,7 @@ WITH source AS (
     SELECT
         *,
         ROW_NUMBER() OVER () AS row_num
-    FROM `kestra-sandbox-498004.rba_asx_raw.rba_cash_rate`
+    FROM {{ source('rba_asx_raw', 'rba_cash_rate') }}
 ),
 
 renamed AS (
@@ -13,10 +13,10 @@ renamed AS (
         CAST(string_field_3 AS DECIMAL) AS highest_overnight_cash_rate,
         CAST(string_field_4 AS DECIMAL) AS lowest_overnight_cash_rate
     FROM source
-    WHERE row_num > 10
+    WHERE row_num > 10 
+        AND PARSE_DATE('%d/%m/%Y', string_field_0) > DATE '2020-01-01'
 )
 
 SELECT *
 FROM renamed
-
 

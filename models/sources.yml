@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: rba_asx_raw
+    database: kestra-sandbox-498004
+    tables:
+      - name: rba_cash_rate
+      - name: asx_prices
