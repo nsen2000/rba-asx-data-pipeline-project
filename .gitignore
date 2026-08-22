@@ -32,7 +32,7 @@ dbt/logs/
 
 
 dbt-env/
-   dbt_env/
-   logs/
-   rba_asx/
-   target/
+dbt_env/
+logs/
+rba_asx/
+target/
