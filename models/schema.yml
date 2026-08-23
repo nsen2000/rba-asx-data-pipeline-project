@@ -1,0 +1,65 @@
+version: 2
+
+models:
+
+  - name: fct_rate_vs_market
+    description: rba-asx joined table
+
+    columns:
+      - name: asx_date
+        description: daily asx prices
+        data_tests:
+          - not_null
+
+      - name: rba_date
+        description: monthly rba cash rate
+        data_tests:
+          - not_null
+       
+      - name: ticker
+        description: asx ticker codes
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['^AXJO', 'CBA.AX', 'BHP.AX', 'WES.AX', 'CSL.AX']
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - asx_date
+              - ticker
+
+
+
+  - name: stg_asx_prices
+    description: asx prices staging model
+    
+    columns:
+      - name: date
+        description: daily asx prices
+        data_tests:
+          - not_null
+
+      - name: ticker
+        description: asx ticker codes
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['^AXJO', 'CBA.AX', 'BHP.AX', 'WES.AX', 'CSL.AX']
+
+
+
+  - name: stg_rba_cash_rate
+    description: rba cash rate staging model
+    
+    columns:
+      - name: date
+        description: monthly rba cash rate
+        data_tests:
+          - not_null
+          - unique
+
+# dbt ships four built-in tests: not_null, unique, accepted_values, and relationships

@@ -36,3 +36,4 @@ dbt_env/
 logs/
 rba_asx/
 target/
+dbt_packages/
