@@ -10,8 +10,8 @@ SELECT
     ASX.high AS high,
     ASX.low AS low,
     ASX.volume AS volume
-FROM {{ ref('stg_asx_prices') }} 
-CROSS JOIN {{ ref('stg_rba_cash_rate') }} 
+FROM {{ ref('stg_asx_prices') }} AS ASX
+CROSS JOIN {{ ref('stg_rba_cash_rate') }} AS RBA
 WHERE RBA.date = (
     SELECT MAX(r.date)
     FROM {{ ref('stg_rba_cash_rate') }} AS r

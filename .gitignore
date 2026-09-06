@@ -30,6 +30,9 @@ dbt/logs/
 .vscode/
 .idea/
 
+# env
+.env
+airflow/config/
 
 dbt-env/
 dbt_env/
