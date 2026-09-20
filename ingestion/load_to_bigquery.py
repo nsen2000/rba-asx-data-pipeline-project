@@ -10,13 +10,15 @@ client = bigquery.Client()
 
 asx_job_config = bigquery.LoadJobConfig(                                                          # Configure load job
     source_format=bigquery.SourceFormat.CSV,                                                   # Or NEWLINE_DELIMITED_JSON, PARQUET, etc.                                                                         # Skip header row for CSV
-    autodetect=True                                                                           # Automatically detect schema
+    autodetect=True,                                                                           # Automatically detect schema
+    write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE                                 
 )
 
 rba_job_config = bigquery.LoadJobConfig(                                                          # Configure load job
     source_format=bigquery.SourceFormat.CSV,                                                   # Or NEWLINE_DELIMITED_JSON, PARQUET, etc.       
     skip_leading_rows = 1,                                                                    # Skip header row for CSV
-    autodetect=True                                                                           # Automatically detect schema
+    autodetect=True,                                                                          # Automatically detect schema
+    write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE                                
 )
 
 asx_load_job = client.load_table_from_uri(
