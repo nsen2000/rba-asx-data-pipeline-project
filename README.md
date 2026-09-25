@@ -11,12 +11,6 @@ performance over time?
 ## Architecture
 Sources → Raw (GCS/BigQuery) → Staging (dbt) → Core model (dbt) → Power BI
 
-RBA CSV      ─► raw_rba_cash_rate ─► stg_cash_rate ──┐
-                                                      ├─► fct_rate_vs_market ─► Power BI
-yfinance     ─► raw_asx_prices    ─► stg_asx_prices ─┘
-
-## Architecture
-
 ```mermaid
 graph LR
     subgraph Airflow["Airflow DAG (Docker Compose)"]
