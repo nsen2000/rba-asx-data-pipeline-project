@@ -71,10 +71,6 @@ granularity while correctly modeling the rate as a step function.
 Python · Google Cloud Platform · BigQuery · dbt · Airflow · Terraform ·
 Docker · Power BI
 
-## Status
-🚧 In development
-
-## How to run
 ## How to run
 
 ### Prerequisites
