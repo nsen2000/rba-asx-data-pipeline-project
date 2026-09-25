@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 # RBA Cash Rate × ASX Market Performance Pipeline
 
 A batch data pipeline analysing how RBA cash rate changes relate to ASX
-market performance (overall and by sector) over 2020–present.
+market performance (overall and by sector) over 2024–present.
 
 ## Question
 How do RBA cash rate decisions relate to ASX 200 and sector-level stock
