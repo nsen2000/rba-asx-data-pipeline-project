@@ -7,12 +7,12 @@ models:
 
     columns:
       - name: asx_date
-        description: daily asx prices
+        description: daily asx date
         data_tests:
           - not_null
 
       - name: rba_date
-        description: monthly rba cash rate
+        description: monthly rba cash date
         data_tests:
           - not_null
        
@@ -32,13 +32,12 @@ models:
               - ticker
 
 
-
   - name: stg_asx_prices
     description: asx prices staging model
     
     columns:
       - name: date
-        description: daily asx prices
+        description: daily asx date
         data_tests:
           - not_null
 
@@ -51,7 +50,6 @@ models:
                 values: ['^AXJO', 'CBA.AX', 'BHP.AX', 'WES.AX', 'CSL.AX']
 
 
-
   - name: stg_rba_cash_rate
     description: rba cash rate staging model
     
@@ -62,4 +60,51 @@ models:
           - not_null
           - unique
 
-# dbt ships four built-in tests: not_null, unique, accepted_values, and relationships
+
+  - name: fct_monthly_returns
+    description: >
+      Monthly ticker returns alongside the change in the RBA cash rate.
+      One row per ticker per complete month. Month-end values come from
+      the last trading day of each month, not the calendar last day.
+      Each ticker's first month (no prior) and the current in-progress
+      month are excluded. Feeds the rate vs return scatter in Power BI.
+
+    columns:
+      - name: ticker
+        description: ASX ticker code. ^AXJO is the ASX 200 index.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['^AXJO', 'CBA.AX', 'BHP.AX', 'WES.AX', 'CSL.AX']
+
+      - name: month_start_date
+        description: First day of the month this row covers.
+        data_tests:
+          - not_null
+
+      - name: month_end_date
+        description: Last trading day of the month for this ticker.
+
+      - name: month_end_close
+        description: Closing price on month_end_date.
+
+      - name: month_end_rate
+        description: RBA cash rate target (%) in force on month_end_date.
+
+      - name: monthly_return
+        description: >
+          Price return versus the previous month's close, as a decimal.
+          0.03 means +3%.
+
+      - name: rate_change_pp
+        description: >
+          Change in the cash rate target versus the previous month, in
+          percentage points. -0.25 means a 25 basis point cut.
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - ticker
+              - month_start_date
