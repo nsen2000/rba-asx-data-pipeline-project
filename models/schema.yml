@@ -3,21 +3,28 @@ version: 2
 models:
 
   - name: fct_rate_vs_market
-    description: rba-asx joined table
+    description: >
+      Daily ASX prices with the RBA cash rate target in force on each
+      trading day. One row per ticker per trading day. The daily RBA
+      series is collapsed into rate periods (one per rate change) and
+      each trading day is joined to the period it falls inside.
 
     columns:
       - name: asx_date
-        description: daily asx date
+        description: Trading date.
         data_tests:
           - not_null
 
       - name: rba_date
-        description: monthly rba cash date
+        description: Date the applicable cash rate target took effect.
         data_tests:
           - not_null
-       
+
+      - name: cash_rate_target
+        description: RBA cash rate target (%) in force on asx_date.
+
       - name: ticker
-        description: asx ticker codes
+        description: ASX ticker code. ^AXJO is the ASX 200 index.
         data_tests:
           - not_null
           - accepted_values:
@@ -27,6 +34,7 @@ models:
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
+
             combination_of_columns:
               - asx_date
               - ticker
@@ -51,14 +59,21 @@ models:
 
 
   - name: stg_rba_cash_rate
-    description: rba cash rate staging model
-    
+    description: >
+      RBA cash rate data from Table F1 (daily), one row per publication
+      day from 2020. Rows with no published target are excluded.
+
     columns:
       - name: date
-        description: monthly rba cash rate
+        description: RBA publication date.
         data_tests:
           - not_null
           - unique
+
+      - name: cash_rate_target
+        description: RBA cash rate target (%) on this date.
+        data_tests:
+          - not_null
 
 
   - name: fct_monthly_returns
