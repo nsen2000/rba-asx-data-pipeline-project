@@ -2,7 +2,8 @@ version: 2
 
 sources:
   - name: rba_asx_raw
-    database: kestra-sandbox-498004
+    database: "{{ env_var('GCP_PROJECT_ID') }}"
     tables:
       - name: rba_cash_rate
       - name: asx_prices
+

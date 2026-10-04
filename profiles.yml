@@ -1,0 +1,13 @@
+   rba_asx:
+     outputs:
+       dev:
+         dataset: rba_asx_analytics
+         job_execution_timeout_seconds: 300
+         job_retries: 1
+         location: australia-southeast1
+         method: oauth
+         priority: interactive
+         project: "{{ env_var('GCP_PROJECT_ID') }}"
+         threads: 1
+         type: bigquery
+     target: dev

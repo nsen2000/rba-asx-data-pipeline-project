@@ -1,10 +1,12 @@
 from google.cloud import bigquery
+import os
 
-bucket_name = "nik-rba-asx-data-lake"                                                                    # Initialise BigQuery client
+bucket_name = os.environ["GCS_BUCKET"]
+project_id = os.environ["GCP_PROJECT_ID"]   
 asx_source_uri = f"gs://{bucket_name}/raw/asx/asx_prices.csv"
 rba_source_uri = f"gs://{bucket_name}/raw/rba/rba_cash_rate.csv"
-asx_table_id = "kestra-sandbox-498004.rba_asx_raw.asx_prices"
-rba_table_id = "kestra-sandbox-498004.rba_asx_raw.rba_cash_rate"
+asx_table_id = f"{project_id}.rba_asx_raw.asx_prices"
+rba_table_id = f"{project_id}.rba_asx_raw.rba_cash_rate"
 
 client = bigquery.Client()   
 

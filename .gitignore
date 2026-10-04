@@ -40,3 +40,4 @@ logs/
 rba_asx/
 target/
 dbt_packages/
+.user.yml

@@ -2,10 +2,11 @@ import yfinance as yf
 import pandas as pd
 from datetime import date
 from google.cloud import storage
+import os
 
 tickers = ["^AXJO", "CBA.AX", "BHP.AX", "WES.AX", "CSL.AX"]                    # Array holder all tickers in ASX data
-ticker_holder = []                                                             # Empty array to hold multiple dataframed in for loop
-bucket_name = "nik-rba-asx-data-lake"                                          # Bucket for data to be uploaded into
+ticker_holder = []                                                             # Empty array to hold multiple dataframed in for loop 
+bucket_name = os.environ["GCS_BUCKET"]                                         # Bucket for data to be uploaded into
 
 for ticker in tickers:
     df = yf.download(ticker, start="2024-01-01", end=date.today(), progress=False, auto_adjust=True)
