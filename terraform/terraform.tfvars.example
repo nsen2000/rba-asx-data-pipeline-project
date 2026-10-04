@@ -1,0 +1,14 @@
+# Copy this file to terraform.tfvars and fill in your own values.
+#   cp terraform.tfvars.example terraform.tfvars
+
+# GCP project to create the bucket and BigQuery datasets in.
+# Must match GCP_PROJECT_ID in airflow/.env.
+project_id = "your-gcp-project-id"
+
+# GCS bucket for raw files. Must be globally unique across all of GCP.
+# Must match GCS_BUCKET in airflow/.env.
+bucket_name = "your-unique-bucket-name"
+
+# Optional: override the default region (australia-southeast1).
+# region      = "australia-southeast1"
+# bq_location = "australia-southeast1"

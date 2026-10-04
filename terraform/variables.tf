@@ -1,7 +1,6 @@
 variable "project_id" {
   description = "GCP project ID"
   type        = string
-  default     = "kestra-sandbox-498004"
 }
 
 variable "region" {
@@ -19,5 +18,4 @@ variable "bq_location" {
 variable "bucket_name" {
   description = "Globally-unique GCS bucket name for the raw data lake"
   type        = string
-  default     = "nik-rba-asx-data-lake"
 }

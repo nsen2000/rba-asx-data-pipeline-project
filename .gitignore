@@ -9,6 +9,7 @@ credentials/
 *.tfstate.*
 .terraform/
 .terraform.lock.hcl
+terraform.tfvars
 
 # python
 __pycache__/
