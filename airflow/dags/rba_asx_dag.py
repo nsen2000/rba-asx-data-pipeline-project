@@ -27,7 +27,7 @@ with DAG(
 
     task_dbt_run = BashOperator(
         task_id="run_dbt",
-        bash_command="cd /opt/airflow/project && dbt run"
+        bash_command="cd /opt/airflow/project && dbt deps && dbt run"
     )
 
     task_dbt_test = BashOperator(
@@ -35,6 +35,6 @@ with DAG(
         bash_command="cd /opt/airflow/project && dbt test"
     )
     
-# 4. Define task dependencies (the workflow layout) using bitshift operators
-    # task_start runs first, then download and process run in parallel, followed by cleanup.
+# 3. Define task dependencies (the workflow layout) using bitshift operators
+    # The two ingestions run in parallel, then the load to BigQuery, then dbt run, then dbt test.
     [task_asx_ingestion, task_rba_ingestion] >> task_load_to_bigquery >> task_dbt_run >> task_dbt_test
