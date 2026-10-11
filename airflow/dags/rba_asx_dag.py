@@ -9,7 +9,7 @@ with DAG(
     schedule='0 9 * * 1-5',
 ) as dag:
  
- # 2. Define the individual Bash tasks
+# 2. Define the individual Bash tasks
     task_asx_ingestion = BashOperator(
         task_id="run_asx_ingestion",
         bash_command="python /opt/airflow/project/ingestion/ingest_asx.py"
