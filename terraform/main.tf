@@ -30,10 +30,12 @@ resource "google_storage_bucket" "data_lake" {
 resource "google_bigquery_dataset" "raw" {
   dataset_id = "rba_asx_raw"
   location   = var.bq_location
+  delete_contents_on_destroy = true
 }
 
 # BigQuery dataset for dbt models (staging + core)
 resource "google_bigquery_dataset" "analytics" {
   dataset_id = "rba_asx_analytics"
   location   = var.bq_location
+  delete_contents_on_destroy = true
 }
