@@ -164,7 +164,16 @@ profiles.yml      dbt connection (reads the project from the environment)
 - Terraform
 - The `gcloud` CLI, logged in with `gcloud auth application-default login` (Terraform uses this)
 - A Google Cloud project with the BigQuery and Cloud Storage APIs enabled
-- A service account in that project with **Storage Object Admin**, **BigQuery User** and **BigQuery Data Editor** roles, and a JSON key for it saved on your machine (outside the repo)
+- A service account in that project with these three roles, and a JSON key for it saved on your machine (outside the repo):
+  - Storage Object Admin (`roles/storage.objectAdmin`)
+  - BigQuery User (`roles/bigquery.user`)
+  - BigQuery Data Editor (`roles/bigquery.dataEditor`)
+
+> **Note:** On newer Google Cloud accounts, creating the JSON key may be blocked by the `iam.disableServiceAccountKeyCreation` organisation policy. To allow it for your project only, run the command below (this needs the Organization Policy Administrator role on your organisation):
+>
+> ```bash
+> gcloud resource-manager org-policies disable-enforce iam.disableServiceAccountKeyCreation --project=YOUR_PROJECT_ID
+> ```
 
 ### 1. Clone
 
@@ -180,7 +189,7 @@ cd terraform
 cp terraform.tfvars.example terraform.tfvars
 ```
 
-Edit `terraform.tfvars` with your project ID and a globally unique bucket name, then:
+Edit `terraform.tfvars` with your project ID and a globally unique bucket name. If you leave the placeholder values in, Terraform stops with a message telling you what to change. Then:
 
 ```bash
 terraform init
@@ -191,6 +200,8 @@ cd ..
 This creates the GCS bucket and the `rba_asx_raw` and `rba_asx_analytics` BigQuery datasets.
 
 ### 3. Configure
+
+From the repo root:
 
 ```bash
 cp airflow/.env.example airflow/.env
@@ -209,6 +220,8 @@ Fill in `airflow/.env`:
 `.env` and `terraform.tfvars` are gitignored; only the `.example` templates are committed.
 
 ### 4. Start Airflow
+
+From the repo root:
 
 ```bash
 cd airflow
@@ -251,14 +264,18 @@ docker compose exec airflow-scheduler bash -c "cd /opt/airflow/project && dbt bu
 Or locally, from the repo root, with `dbt-bigquery` 1.12 installed and `gcloud` logged in:
 
 ```bash
-set -a; source airflow/.env; set +a
-dbt deps
-dbt build
+(
+  set -a; source airflow/.env; set +a
+  dbt deps
+  dbt build
+)
 ```
 
-The `set -a` line loads the variables from `.env` into your shell. dbt reads `GCP_PROJECT_ID` from the environment and stops with a clear error if it's missing.
+The parentheses run these commands in a subshell: set -a loads the variables from .env for dbt, and they disappear when the subshell exits. Without the subshell they would stay in your terminal and override .env the next time you run Docker Compose, which can silently mount the wrong service account key. dbt reads GCP_PROJECT_ID from the environment and stops with a clear error if it’s missing.
 
 ### Teardown
+
+From the repo root:
 
 ```bash
 cd airflow
